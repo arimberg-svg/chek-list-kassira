@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Чек-лист кассира. Введение в должность</title>
+  <meta name="description" content="Чек-лист кассира. Введение в должность. Академия УМ, сеть «У Михалыча»." />
+  <style>
+    :root {
+      --ink: #222222;
+      --paper: #ffffff;
+      --page-w: 210mm;
+      --font: Arial, "Helvetica Neue", Helvetica, sans-serif;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      font-family: var(--font);
+      font-size: 15px;
+      line-height: 1.45;
+      background: #f0f0f0;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+    .toolbar {
+      position: sticky; top: 0; z-index: 50;
+      display: flex; flex-wrap: wrap; gap: 8px; align-items: center;
+      justify-content: space-between;
+      padding: 8px 12px;
+      background: #555;
+      color: #fff;
+      font-size: 12px;
+    }
+    .toolbar .brand { display: flex; align-items: center; gap: 8px; }
+    .toolbar .brand img {
+      height: 28px; width: auto;
+      background: #fff; padding: 2px 4px;
+    }
+    .toolbar .actions { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+    .toolbar button {
+      border: 1px solid #ccc;
+      background: transparent;
+      color: #fff;
+      font: inherit;
+      font-size: 12px;
+      padding: 5px 10px;
+      cursor: pointer;
+    }
+    .toolbar button.primary { background: #fff; color: #444; border-color: #fff; }
+    .toolbar button:hover { background: #666; }
+    .toolbar a { color: #fff; }
+    .toolbar .status { font-size: 11px; opacity: .85; }
+    .sheet-wrap {
+      width: min(var(--page-w), calc(100% - 16px));
+      margin: 12px auto 32px;
+    }
+    .sheet {
+      background: var(--paper);
+      border: 1px solid #bbb;
+      box-shadow: 0 1px 6px rgba(0,0,0,.08);
+      padding: 16px 18px 22px;
+    }
+    .motto {
+      text-align: center;
+      color: #888;
+      font-size: 12px;
+      margin: 0 0 8px;
+      letter-spacing: .04em;
+    }
+    .title-block {
+      text-align: center;
+      margin: 0 0 14px;
+      padding: 0 0 10px;
+      border-bottom: 1px solid #ccc;
+    }
+    .title-block .logo {
+      display: block;
+      width: min(250px, 70%);
+      height: auto;
+      margin: 0 auto 6px;
+    }
+    .eyebrow { margin: 0; font-size: 11px; color: #999; }
+    h1 {
+      font-weight: 700;
+      font-size: 18px;
+      line-height: 1.25;
+      margin: 4px 0 2px;
+      color: #222;
+    }
+    .meta { display: grid; gap: 8px; margin: 0 0 12px; }
+    .field {
+      display: grid;
+      grid-template-columns: 200px 1fr;
+      gap: 8px;
+      align-items: end;
+      font-size: 14px;
+    }
+    .field span { color: #444; padding-bottom: 2px; }
+    .field .ink, .admit .ink {
+      border: none;
+      border-bottom: 1px solid #999;
+      background: transparent;
+      font: inherit;
+      font-size: 15px;
+      padding: 2px 4px;
+      color: var(--ink);
+      width: 100%;
+      min-width: 0;
+    }
+    .field .ink:focus, .admit .ink:focus { outline: none; border-bottom-color: #555; }
+    .scheme { margin: 0 0 8px; font-size: 13px; color: #444; line-height: 1.45; }
+    .scheme b { font-weight: 700; }
+    .pair { margin: 0 0 14px; font-size: 13px; }
+    .pair a { color: #222; }
+    .block { margin: 0 0 16px; }
+    h2 {
+      font-weight: 700;
+      font-size: 16px;
+      line-height: 1.3;
+      color: #222;
+      margin: 0 0 6px;
+      page-break-after: avoid;
+    }
+    .when { margin: 0 0 8px; font-size: 13px; color: #555; }
+    .list { display: flex; flex-direction: column; gap: 6px; }
+    .item {
+      display: grid;
+      grid-template-columns: 18px 1fr;
+      gap: 8px;
+      align-items: start;
+      cursor: pointer;
+      font-size: 15px;
+      line-height: 1.4;
+    }
+    .item input {
+      position: absolute;
+      opacity: 0;
+      width: 1px;
+      height: 1px;
+      pointer-events: none;
+    }
+    .item .box {
+      width: 16px;
+      height: 16px;
+      margin-top: 2px;
+      border: 1.5px solid #666;
+      background: #fff;
+    }
+    .item input:checked + .box {
+      background: #555;
+      border-color: #555;
+      box-shadow: inset 0 0 0 2px #fff;
+    }
+    .admit {
+      margin: 18px 0 12px;
+      padding-top: 12px;
+      border-top: 1px solid #ccc;
+      page-break-inside: avoid;
+    }
+    .admit h2 { margin-bottom: 10px; }
+    .admit-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px 18px;
+      align-items: center;
+      margin: 0 0 10px;
+      font-size: 15px;
+    }
+    .admit-row .choice { display: inline-flex; align-items: center; gap: 6px; cursor: pointer; }
+    .admit-row .choice input { width: 16px; height: 16px; }
+    .sign { display: grid; gap: 8px; margin-top: 8px; }
+    .sign .field { grid-template-columns: 220px 1fr; }
+    @media (max-width: 640px) {
+      .field, .sign .field { grid-template-columns: 1fr; gap: 2px; }
+      .sheet { padding: 12px; }
+    }
+    @media print {
+      .toolbar { display: none !important; }
+      body { background: #fff; font-size: 14px; }
+      .sheet-wrap { width: 100%; margin: 0; }
+      .sheet { border: none; box-shadow: none; padding: 0; }
+      .title-block .logo { width: 180px; }
+      h1 { font-size: 16px; }
+      h2 { font-size: 14px; }
+      .item { font-size: 13px; gap: 6px; }
+      .item .box { width: 13px; height: 13px; border-width: 1px; }
+      .block { break-inside: avoid; }
+      a { color: inherit; text-decoration: none; }
+    }
+</style>
+</head>
+<body>
+  <div class="toolbar">
+    <div class="brand">
+      <img src="../assets/logo.png" alt="У Михалыча" width="120" height="36" />
+      <span>Академия УМ · чек-лист кассира</span>
+    </div>
+    <div class="actions">
+      <span class="status" id="save-status">отметки хранятся в этом браузере</span>
+      <button type="button" id="btn-save">Сохранить</button>
+      <button type="button" id="btn-clear">Очистить</button>
+      <button type="button" class="primary" id="btn-print">Печать / PDF</button>
+    </div>
+  </div>
+  <div class="sheet-wrap">
+    <article class="sheet" id="checklist">
+      <p class="motto">Делаем мир крепче</p>
+      <header class="title-block">
+        <img class="logo" src="../assets/logo.png" alt="У Михалыча" width="250" height="72" />
+        <p class="eyebrow">Академия УМ · сеть «У Михалыча»</p>
+        <h1>Чек-лист кассира</h1>
+      </header>
+      <div class="meta">
+        <label class="field"><span>Кассир</span><input type="text" data-k class="ink" autocomplete="off" /></label>
+<label class="field"><span>Магазин</span><input type="text" data-k class="ink" autocomplete="off" /></label>
+<label class="field"><span>Предыдущий кассир</span><input type="text" data-k class="ink" autocomplete="off" /></label>
+<label class="field"><span>СПК</span><input type="text" data-k class="ink" autocomplete="off" /></label>
+<label class="field"><span>Дата начала</span><input type="text" data-k class="ink" autocomplete="off" /></label>
+      </div>
+      <p class="scheme"><b>Две недели.</b> Первая неделя — передача дел от предыдущего кассира: он показывает, вы повторяете. Вторая неделя — вы работаете сами, СПК смотрит.</p>
+      <p class="pair">Второй лист, для СПК: <a href="../spk/">контроль за кассиром</a>.</p>
+      <section class="block"><h2>До выхода</h2><p class="when">Это закрываем до первой смены.</p><div class="list"><label class="item"><input type="checkbox" data-k /><span class="box" aria-hidden="true"></span><span class="txt">Дата выхода и магазин согласованы, смены на две недели мне известны</span></label>
+<label class="item"><input type="checkbox" data-k /><span class="box" aria-hidden="true"></span><span class="txt">На первой неделе мои смены совпадают со сменами предыдущего кассира</span></label>
+<label class="item"><input type="checkbox" data-k /><span class="box" aria-hidden="true"></span><span class="txt">На второй неделе СПК на точке и может проверить кассу</span></label>
+<label class="item"><input type="checkbox" data-k /><span class="box" aria-hidden="true"></span><span class="txt">Вход есть: 1С:Касса, 1С:Торговля, почта магазина, VK Teams, Сберинкассация</span></label>
+<label class="item"><input type="checkbox" data-k /><span class="box" aria-hidden="true"></span><span class="txt">Место на кассе и бейдж готовы</span></label>
+<label class="item"><input type="checkbox" data-k /><span class="box" aria-hidden="true"></span><span class="txt">Знаю, кто СПК и кто предыдущий кассир. Если касса встала при покупателе, звоню 39-46-99</span></label></div></section><section class="block"><h2>Неделя 1. Смена на кассе</h2><p class="when">Передача от предыдущего кассира. Галочка после того, как операция сделана руками. Если за неделю такого случая не было, разбираете учебный пример и только потом отмечаете.</p><div class="list"><label class="item"><input type="checkbox" data-k /><span class="box" aria-hidden="true"></span><span class="txt">Прихожу за 15 минут до начала смены</span></label>
+<label class="item"><input type="checkbox" data-k /><span class="box" aria-hidden="true"></span><span class="txt">Включаю компьютер, вхожу в 1С:Касса под своим пользователем и открываю смену</span></label>
+<label class="item"><input type="checkbox" data-k /><span class="box" aria-hidden="true"></span><span class="txt">Чек об открытии смены вышел. Подбор закреплён сверху, сканер включён, курсор в поле товара</span></label>
+<label class="item"><input type="checkbox" data-k /><span class="box" aria-hidden="true"></span><span class="txt">Включены только остатки своего магазина. Остаток других точек смотрю отдельно и закрываю список</span></label>
+<label class="item"><input type="checkbox" data-k /><span class="box" aria-hidden="true"></span><span class="txt">Товар в чек беру сканером и поиском по названию. До оплаты сверяю наименование и количество</span></label>
+<label class="item"><input type="checkbox" data-k /><span class="box" aria-hidden="true"></span><span class="txt">Умею отложить чек и вернуть его, когда покупатель отошёл</span></label>
+<label class="item"><input type="checkbox" data-k /><span class="box" aria-hidden="true"></span><span class="txt">Смену закрываю: пересчёт купюр и монет, акт, Z-отчёт</span></label>
+<label class="item"><input type="checkbox" data-k /><span class="box" aria-hidden="true"></span><span class="txt">Вечерний отчёт заполняю в 1С по каждой кассе: наличность по номиналам, данные из Z, фото Z, провести и закрыть</span></label>
+<label class="item"><input type="checkbox" data-k /><span class="box" aria-hidden="true"></span><span class="txt">Оригинал Z клею на лист А4. С машиной он уедет в офис вместе с остальной бумагой</span></label>
+<label class="item"><input type="checkbox" data-k /><span class="box" aria-hidden="true"></span><span class="txt">Если сверка итогов при закрытии не прошла, знаю, где запустить её из списка чеков</span></label></div></section><section class="block"><h2>Неделя 1. Разговор с покупателем</h2><p class="when">Семь точек, которые слышно в живой очереди. Фразы чередую, наизусть все варианты не учу.</p><div class="list"><label class="item"><input type="checkbox" data-k /><span class="box" aria-hidden="true"></span><span class="txt">Здороваюсь первым</span></label>
+<label class="item"><input type="checkbox" data-k /><span class="box" aria-hidden="true"></span><span class="txt">Смотрю в корзину и предлагаю добор: то, без чего работа покупателя не соберётся. В программе это окно «Допродажи»</span></label>
+<label class="item"><input type="checkbox" data-k /><span class="box" aria-hidden="true"></span><span class="txt">Предлагаю пакет</span></label>
+<label class="item"><input type="checkbox" data-k /><span class="box" aria-hidden="true"></span><span class="txt">Если карты «У Михалыча» нет, предлагаю оформить её. Регистрация через бота по QR, на кассе и в заказе клиента мне показана</span></label>
+<label class="item"><input type="checkbox" data-k /><span class="box" aria-hidden="true"></span><span class="txt">Называю сумму чека вслух</span></label>
+<label class="item"><input type="checkbox" data-k /><span class="box" aria-hidden="true"></span><span class="txt">Спрашиваю способ оплаты: карта, наличные или QR. Сдачу пересчитываю при покупателе</span></label>
+<label class="item"><input type="checkbox" data-k /><span class="box" aria-hidden="true"></span><span class="txt">Благодарю и отдаю чек в руки</span></label>
+<label class="item"><input type="checkbox" data-k /><span class="box" aria-hidden="true"></span><span class="txt">Тяжёлое помогаю донести до машины</span></label>
+<label class="item"><input type="checkbox" data-k /><span class="box" aria-hidden="true"></span><span class="txt">Цена на ценнике и в кассе разная: извиняюсь, сверяю и зову СПК. Решение по цене принимает СПК</span></label></div></section><section class="block"><h2>Неделя 1. Товар</h2><p class="when">Галочка после того, как операция сделана руками. Если за неделю такого случая не было, разбираете учебный пример и только потом отмечаете.</p><div class="list"><label class="item"><input type="checkbox" data-k /><span class="box" aria-hidden="true"></span><span class="txt">Метизы ищу коротким запросом: гвоздь, саморез по дереву, прессшайба, кровля, шуруп, дюбель</span></label>
+<label class="item"><input type="checkbox" data-k /><span class="box" aria-hidden="true"></span><span class="txt">Диаметр меряю штангенциркулем, длину линейкой, в миллиметрах. Дробь в поиске пишу через запятую</span></label>
+<label class="item"><input type="checkbox" data-k /><span class="box" aria-hidden="true"></span><span class="txt">Весовой товар пробиваю через весы</span></label>
+<label class="item"><input type="checkbox" data-k /><span class="box" aria-hidden="true"></span><span class="txt">Перед оплатой в чеке то же наименование, что в руках у покупателя</span></label></div></section><section class="block"><h2>Неделя 1. Сертификат, бонусы, скидка, кредит</h2><p class="when">Галочка после того, как операция сделана руками. Если за неделю такого случая не было, разбираете учебный пример и только потом отмечаете.</p><div class="list"><label class="item"><input type="checkbox" data-k /><span class="box" aria-hidden="true"></span><span class="txt">Сертификат продаю отдельным чеком, без другого товара. Номиналы 500, 1 000, 3 000 и 5 000 рублей, срок год</span></label>
+<label class="item"><input type="checkbox" data-k /><span class="box" aria-hidden="true"></span><span class="txt">Оплату сертификатом провожу сканером. Доплату беру картой, наличными или QR. Сдачу наличными с сертификата не даю</span></label>
+<label class="item"><input type="checkbox" data-k /><span class="box" aria-hidden="true"></span><span class="txt">Бонусы списываю в чеке ККМ</span></label>
+<label class="item"><input type="checkbox" data-k /><span class="box" aria-hidden="true"></span><span class="txt">Скидку и промокод применяю так, как показал предыдущий кассир. До первой такой продажи правила лежат рядом или их подтвердил СПК</span></label>
+<label class="item"><input type="checkbox" data-k /><span class="box" aria-hidden="true"></span><span class="txt">Кредит и рассрочку веду заявкой брокеру в рабочую группу, затем заказом клиента и реализацией. Одобрение банка покупателю не обещаю</span></label></div></section><section class="block"><h2>Неделя 1. Возврат и брак</h2><p class="when">Галочка после того, как операция сделана руками. Если за неделю такого случая не было, разбираете учебный пример и только потом отмечаете.</p><div class="list"><label class="item"><input type="checkbox" data-k /><span class="box" aria-hidden="true"></span><span class="txt">Решение о возврате принимает СПК или управляющий. Я готовлю документы, чек и деньги</span></label>
+<label class="item"><input type="checkbox" data-k /><span class="box" aria-hidden="true"></span><span class="txt">Деньги возвращаю тем же способом, каким прошла оплата. Чек возврата отдаю в руки</span></label>
+<label class="item"><input type="checkbox" data-k /><span class="box" aria-hidden="true"></span><span class="txt">Товар «не подошёл» принимаю в товарном виде и в комплекте, 14 дней без дня покупки. Повреждённый с этой формулировкой передаю СПК</span></label>
+<label class="item"><input type="checkbox" data-k /><span class="box" aria-hidden="true"></span><span class="txt">Продажа была чеком ККМ, на кассе или на КСО: возврат идёт через кассу</span></label>
+<label class="item"><input type="checkbox" data-k /><span class="box" aria-hidden="true"></span><span class="txt">День в день по карте возвращаю весь чек и заново пробиваю то, что покупатель оставляет</span></label>
+<label class="item"><input type="checkbox" data-k /><span class="box" aria-hidden="true"></span><span class="txt">Продажа была заказом клиента с реализацией: делаю корректировку реализации, затем возвращаю деньги</span></label>
+<label class="item"><input type="checkbox" data-k /><span class="box" aria-hidden="true"></span><span class="txt">Возврат принимаю из любого магазина сети и из интернет-магазина</span></label>
+<label class="item"><input type="checkbox" data-k /><span class="box" aria-hidden="true"></span><span class="txt">Чека нет: покупатель пишет заявление, бухгалтерия ищет продажу три рабочих дня, затем зовём человека на возврат</span></label>
+<label class="item"><input type="checkbox" data-k /><span class="box" aria-hidden="true"></span><span class="txt">Похоже на брак: зову того, кто проверяет товар. Акт брака завожу, если на месте вопрос не закрылся: фото, свой склад, заявление</span></label></div></section><section class="block"><h2>Неделя 1. КСО и если касса встала</h2><p class="when">Галочка после того, как операция сделана руками. Если за неделю такого случая не было, разбираете учебный пример и только потом отмечаете.</p><div class="list"><label class="item"><input type="checkbox" data-k /><span class="box" aria-hidden="true"></span><span class="txt">На кассе самообслуживания умею подсказать покупателю и закрыть остановку</span></label>
+<label class="item"><input type="checkbox" data-k /><span class="box" aria-hidden="true"></span><span class="txt">Пока не работает 1С:Касса, продажу ведём через сайт. Товар есть у нас, покупатель сам заказывает и оплачивает на gvozditut.ru с самовывозом из нашего магазина</span></label>
+<label class="item"><input type="checkbox" data-k /><span class="box" aria-hidden="true"></span><span class="txt">Выдаю такой заказ через монитор заказов и отдаю электронный чек</span></label>
+<label class="item"><input type="checkbox" data-k /><span class="box" aria-hidden="true"></span><span class="txt">Ошибку терминала разбираю по памятке на кассе. Если оплата зависла, зову СПК</span></label>
+<label class="item"><input type="checkbox" data-k /><span class="box" aria-hidden="true"></span><span class="txt">Покупатель ждёт, а программа встала: звоню 39-46-99. Остальные сбои кладу заявкой в helpdesk с почты магазина</span></label></div></section><section class="block"><h2>Неделя 1. Наличные, размен, инкассация</h2><p class="when">Галочка после того, как операция сделана руками. Если за неделю такого случая не было, разбираете учебный пример и только потом отмечаете.</p><div class="list"><label class="item"><input type="checkbox" data-k /><span class="box" aria-hidden="true"></span><span class="txt">Выемку и внесение делаю в 1С:Касса после кода бухгалтерии. В сообщении пишу сумму и причину</span></label>
+<label class="item"><input type="checkbox" data-k /><span class="box" aria-hidden="true"></span><span class="txt">Лимит своего магазина знаю по таблице на точке. Заявку на инкассацию создаю, когда к сдаче больше 50 000 рублей</span></label>
+<label class="item"><input type="checkbox" data-k /><span class="box" aria-hidden="true"></span><span class="txt">Наличные на зарплату ближайших 5–7 дней из суммы к сдаче убираю. В кассе после сдачи остаются лимит и эти деньги</span></label>
+<label class="item"><input type="checkbox" data-k /><span class="box" aria-hidden="true"></span><span class="txt">В Сберинкассации создаю заявку, пишу ИНО на сейф-пакете, делаю электронную накладную со статусом «Сформирована»</span></label>
+<label class="item"><input type="checkbox" data-k /><span class="box" aria-hidden="true"></span><span class="txt">Курьеру сверяю паспорт и ФИО, подписываю планшет на ту же сумму и после этого делаю выемку</span></label>
+<label class="item"><input type="checkbox" data-k /><span class="box" aria-hidden="true"></span><span class="txt">Размен прошу у старшего по магазину. Сейф-пакет вскрываю под камерами и вношу деньги в кассу</span></label>
+<label class="item"><input type="checkbox" data-k /><span class="box" aria-hidden="true"></span><span class="txt">Передачу в офис или в другой магазин оформляю расходным ордером на подотчётное лицо: паспорт, две подписи, один экземпляр в сейф-пакет, второй остаётся в магазине, затем выемка</span></label>
+<label class="item"><input type="checkbox" data-k /><span class="box" aria-hidden="true"></span><span class="txt">Зарплату и аванс выдаю по поручению управляющего. Выемка равна всей ведомости, люди расписываются, пакет помечаю «В бухгалтерию» и отдаю с машиной</span></label></div></section><section class="block"><h2>Неделя 1. Ценники и зона у кассы</h2><p class="when">Галочка после того, как операция сделана руками. Если за неделю такого случая не было, разбираете учебный пример и только потом отмечаете.</p><div class="list"><label class="item"><input type="checkbox" data-k /><span class="box" aria-hidden="true"></span><span class="txt">Утром смотрю изменение цен и печатаю ценники своего магазина, только на то, что есть в остатке</span></label>
+<label class="item"><input type="checkbox" data-k /><span class="box" aria-hidden="true"></span><span class="txt">Шаблон беру тот, который принят на точке: улица, дорогой товар, метизы, обычный держатель</span></label>
+<label class="item"><input type="checkbox" data-k /><span class="box" aria-hidden="true"></span><span class="txt">Жёлтый ценник на акцию ставлю по таблице действующих акций</span></label>
+<label class="item"><input type="checkbox" data-k /><span class="box" aria-hidden="true"></span><span class="txt">Отчёт «витрина» по нужной группе формирую для зала: в нём остаток и цена</span></label>
+<label class="item"><input type="checkbox" data-k /><span class="box" aria-hidden="true"></span><span class="txt">Замечания проверки по кассе и прикассовой зоне закрываю в срок, который поставил СПК</span></label></div></section><section class="block"><h2>Неделя 1. Заказы и документы</h2><p class="when">Галочка после того, как операция сделана руками. Если за неделю такого случая не было, разбираете учебный пример и только потом отмечаете.</p><div class="list"><label class="item"><input type="checkbox" data-k /><span class="box" aria-hidden="true"></span><span class="txt">Заказ клиента создаю по ИНН, со складом своего магазина и нужным соглашением. Товар ставлю «Отгрузить», делаю реализацию и счёт-фактуру</span></label>
+<label class="item"><input type="checkbox" data-k /><span class="box" aria-hidden="true"></span><span class="txt">Два экземпляра УПД подписываю со своей стороны и отдаю на подпись. Доверенность и комплект проверяю до выдачи товара</span></label>
+<label class="item"><input type="checkbox" data-k /><span class="box" aria-hidden="true"></span><span class="txt">Если с покупателем ЭДО и документы уже подписаны электронно, бумажный комплект собираю так, как принято на точке</span></label>
+<label class="item"><input type="checkbox" data-k /><span class="box" aria-hidden="true"></span><span class="txt">Заказ интернет-магазина: в чате пишу, что собран, после выдачи пишу, что отгружен. Продажу провожу в мониторе заказов</span></label>
+<label class="item"><input type="checkbox" data-k /><span class="box" aria-hidden="true"></span><span class="txt">Товар на нуле заказываю через управление заказами. Если его нет по сети, пишу в стол заказов: название, цена, срок</span></label>
+<label class="item"><input type="checkbox" data-k /><span class="box" aria-hidden="true"></span><span class="txt">Доставку согласую со старшим. В документе поставщик ИП Ромашкин, номер отправляю бухгалтеру в VK Teams и после этого делаю выемку</span></label>
+<label class="item"><input type="checkbox" data-k /><span class="box" aria-hidden="true"></span><span class="txt">Списание провожу со своим магазином и действием «Отгрузить». Статью выбираю по причине: хознужды, брак, подарок к чеку. Фасовочные пакеты списываю тоже</span></label>
+<label class="item"><input type="checkbox" data-k /><span class="box" aria-hidden="true"></span><span class="txt">Оприходование делаю по закупочной цене. Организация и склад — этот магазин</span></label>
+<label class="item"><input type="checkbox" data-k /><span class="box" aria-hidden="true"></span><span class="txt">Канцелярию заказывает управляющий раз в месяц. На хозяйственные нужды в начале месяца беру 400 рублей на человека, траты и чеки вношу в таблицу</span></label>
+<label class="item"><input type="checkbox" data-k /><span class="box" aria-hidden="true"></span><span class="txt">Раз в неделю с машиной отдаю Z на листах А4, ведомости, документы поставщиков, подписанные УПД и доверенности</span></label>
+<label class="item"><input type="checkbox" data-k /><span class="box" aria-hidden="true"></span><span class="txt">Договор с клиентом, дополнительное соглашение и акт сверки остаются в магазине</span></label>
+<label class="item"><input type="checkbox" data-k /><span class="box" aria-hidden="true"></span><span class="txt">Список возвратов и реестр реализаций за период умею сформировать к пакету</span></label>
+<label class="item"><input type="checkbox" data-k /><span class="box" aria-hidden="true"></span><span class="txt">Папку с документами для договора на сетевом диске открываю по пути, который показал предыдущий кассир</span></label></div></section><section class="block"><h2>Финал первой недели</h2><p class="when">Предыдущий кассир к этому дню уже почти не подсказывает.</p><div class="list"><label class="item"><input type="checkbox" data-k /><span class="box" aria-hidden="true"></span><span class="txt">Полный день на кассе прошёл рядом с предыдущим кассиром</span></label>
+<label class="item"><input type="checkbox" data-k /><span class="box" aria-hidden="true"></span><span class="txt">Записал операции, которые были только учебным примером. Их закрываем на второй неделе</span></label></div></section><section class="block"><h2>Неделя 2. Сам, СПК смотрит</h2><p class="when">СПК смотрит и подключается, если ошибка уже касается чека или денег.</p><div class="list"><label class="item"><input type="checkbox" data-k /><span class="box" aria-hidden="true"></span><span class="txt">Сам открываю смену и готовлю сканер, подбор и остатки своего магазина</span></label>
+<label class="item"><input type="checkbox" data-k /><span class="box" aria-hidden="true"></span><span class="txt">Сам веду очередь: приветствие, добор, пакет, карта, сумма, оплата, чек</span></label>
+<label class="item"><input type="checkbox" data-k /><span class="box" aria-hidden="true"></span><span class="txt">Сам закрываю смену и заполняю вечерний отчёт по каждой кассе. Наличные сходятся с пересчётом</span></label>
+<label class="item"><input type="checkbox" data-k /><span class="box" aria-hidden="true"></span><span class="txt">Возврат, который пришёл на этой неделе, оформил после решения СПК</span></label>
+<label class="item"><input type="checkbox" data-k /><span class="box" aria-hidden="true"></span><span class="txt">Инкассацию, размен, выемку или внесение, если они были, провёл сам</span></label>
+<label class="item"><input type="checkbox" data-k /><span class="box" aria-hidden="true"></span><span class="txt">Ценники утренней переоценки и заказы дня закрыл сам</span></label>
+<label class="item"><input type="checkbox" data-k /><span class="box" aria-hidden="true"></span><span class="txt">Операции, которые на первой неделе были только примером, сделал вживую или ещё раз разобрал со СПК</span></label>
+<label class="item"><input type="checkbox" data-k /><span class="box" aria-hidden="true"></span><span class="txt">Полный день прошёл без предыдущего кассира</span></label></div></section>
+      
+      <section class="admit">
+        <h2>Допуск</h2>
+        <div class="admit-row">
+          <span>Допуск к самостоятельной работе:</span>
+          <label class="choice"><input type="checkbox" data-k /> Да</label>
+          <label class="choice"><input type="checkbox" data-k /> Пока рано</label>
+        </div>
+        <div class="admit-row">
+          <span>Закрыто:</span>
+          <label class="choice"><input type="checkbox" data-k /> неделя 1, передача дел</label>
+<label class="choice"><input type="checkbox" data-k /> неделя 2, сам под контролем СПК</label>
+        </div>
+        <label class="field"><span>Что ещё разобрать</span><input type="text" data-k class="ink" autocomplete="off" /></label>
+        <div class="sign">
+          <label class="field"><span>Подпись кассира</span><input type="text" data-k class="ink" autocomplete="off" /></label>
+<label class="field"><span>Подпись СПК</span><input type="text" data-k class="ink" autocomplete="off" /></label>
+<label class="field"><span>Дата</span><input type="text" data-k class="ink" autocomplete="off" /></label>
+        </div>
+      </section>
+    
+    </article>
+  </div>
+  <script>
+
+  (function () {
+    const KEY = "um-kassir-vvod-kassir-v1";
+    const root = document.getElementById("checklist");
+    const status = document.getElementById("save-status");
+    const fields = () => root.querySelectorAll("[data-k]");
+    function assignIds() {
+      fields().forEach((el, i) => { if (!el.dataset.id) el.dataset.id = "f" + i; });
+    }
+    function collect() {
+      const data = {};
+      fields().forEach((el) => {
+        data[el.dataset.id] = el.type === "checkbox" ? el.checked : el.value;
+      });
+      return data;
+    }
+    function apply(data) {
+      if (!data) return;
+      fields().forEach((el) => {
+        const id = el.dataset.id;
+        if (!(id in data)) return;
+        if (el.type === "checkbox") el.checked = !!data[id];
+        else el.value = data[id] || "";
+      });
+    }
+    function save(manual) {
+      try {
+        localStorage.setItem(KEY, JSON.stringify(collect()));
+        const t = new Date();
+        status.textContent = (manual ? "сохранено " : "автосохранение ") +
+          t.toLocaleTimeString("ru-RU", { hour: "2-digit", minute: "2-digit" });
+      } catch (e) {
+        status.textContent = "не удалось сохранить";
+      }
+    }
+    function load() {
+      try {
+        const raw = localStorage.getItem(KEY);
+        if (raw) apply(JSON.parse(raw));
+      } catch (e) {}
+    }
+    assignIds();
+    load();
+    let timer;
+    root.addEventListener("input", () => {
+      clearTimeout(timer);
+      timer = setTimeout(() => save(false), 400);
+    });
+    root.addEventListener("change", () => save(false));
+    document.getElementById("btn-save").addEventListener("click", () => save(true));
+    document.getElementById("btn-print").addEventListener("click", () => { save(true); window.print(); });
+    document.getElementById("btn-clear").addEventListener("click", () => {
+      if (!confirm("Очистить все отметки и поля в этом браузере?")) return;
+      fields().forEach((el) => {
+        if (el.type === "checkbox") el.checked = false;
+        else el.value = "";
+      });
+      localStorage.removeItem(KEY);
+      status.textContent = "очищено";
+    });
+  })();
+
+  </script>
+</body>
+</html>
