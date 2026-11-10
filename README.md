@@ -1,13 +1,14 @@
 # Введение в должность кассира
 
-12–15 ноября 2026 кассир работает с предыдущим кассиром: смена, поиск товара, доппродажи, кредит и инкассация. 16–20 ноября смену смотрит СПК: документы, стол заказов, монитор интернет-магазина и юридические лица.
+12–15 ноября 2026 кассир работает с предыдущим кассиром. 16–20 ноября смену смотрит СПК. Третий лист новый кассир ведёт сам: отмечает, что изучил и что понял, и пишет, на чём остановился.
 
 ## Ссылки
 
 **https://arimberg-svg.github.io/chek-list-kassira/**
 
-- [Чек-лист кассира](https://arimberg-svg.github.io/chek-list-kassira/kassir/)
+- [Чек-лист с предыдущим кассиром](https://arimberg-svg.github.io/chek-list-kassira/kassir/)
 - [Контроль СПК за кассиром](https://arimberg-svg.github.io/chek-list-kassira/spk/)
+- [Лист нового кассира](https://arimberg-svg.github.io/chek-list-kassira/sam/)
 
 Репозиторий: https://github.com/arimberg-svg/chek-list-kassira
 

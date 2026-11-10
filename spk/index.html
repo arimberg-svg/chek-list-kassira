@@ -156,6 +156,10 @@
     .proc { font-weight: 700; }
     .steps { margin: 4px 0 0; padding-left: 18px; }
     .steps li { margin: 2px 0; }
+    .steps.plain { margin: 0 0 8px; }
+    .marks { display: flex; flex-wrap: wrap; gap: 8px 18px; margin: 0 0 8px; }
+    .marks .choice { display: inline-flex; align-items: center; gap: 6px; cursor: pointer; }
+    .marks .choice input { width: 16px; height: 16px; }
     .admit {
       margin: 18px 0 12px;
       padding-top: 12px;
@@ -224,7 +228,7 @@
 <label class="field"><span>Дата начала</span><input type="text" data-k class="ink" autocomplete="off" /></label>
       </div>
       <p class="scheme"><b>16–20 ноября 2026.</b> Понедельник и вторник смотрите смену, оплату и возврат. Среда — инкассация. Четверг — юридические лица. Пятница — документы, стол заказов, монитор интернет-магазина и допуск.</p>
-      <p class="pair">Лист самого кассира: <a href="../kassir/">введение в должность</a>.</p>
+      <p class="pair">Рядом: <a href="../kassir/">дни с предыдущим кассиром</a> и <a href="../sam/">лист нового кассира</a>.</p>
       <section class="block"><h2>16 ноября 2026, понедельник. Смена и продажа</h2><p class="when">Смотрите со стороны. Кассу за кассира не ведёте. Если кассир этого не сделал, не отмечайте.</p><div class="list"><label class="item"><input type="checkbox" data-k /><span class="box" aria-hidden="true"></span><span class="txt">Список с 15 ноября на руках: что кассир сделал на кассе</span></label>
 <label class="item"><input type="checkbox" data-k /><span class="box" aria-hidden="true"></span><span class="txt"><span class="proc">Выход на смену</span><ul class="steps"><li>Доступы на месте: 1С:Касса, 1С:Торговля, почта магазина, Битрикс24</li><li>Кассир вышел за 15 минут, форма и бейдж в порядке, место у кассы чистое</li></ul></span></label>
 <label class="item"><input type="checkbox" data-k /><span class="box" aria-hidden="true"></span><span class="txt"><span class="proc">Открытие смены и чек</span><ul class="steps"><li>Кассир умеет открыть смену, закрепить подбор и включить сканер штрихкодов</li><li>Остаток своего магазина включён. Остаток других точек показывает и закрывает</li><li>Позицию в чек добавляет сканером штрихкодов. Ошибочную позицию убирает и добавляет нужную заново</li><li>Если продавцов несколько, сканирует штрихкод каждого</li></ul></span></label>
