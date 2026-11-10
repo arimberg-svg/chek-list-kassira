@@ -92,7 +92,7 @@
     .meta { display: grid; gap: 8px; margin: 0 0 12px; }
     .field {
       display: grid;
-      grid-template-columns: 200px 1fr;
+      grid-template-columns: 280px 1fr;
       gap: 8px;
       align-items: end;
       font-size: 14px;
@@ -160,6 +160,19 @@
     .marks { display: flex; flex-wrap: wrap; gap: 8px 18px; margin: 0 0 8px; }
     .marks .choice { display: inline-flex; align-items: center; gap: 6px; cursor: pointer; }
     .marks .choice input { width: 16px; height: 16px; }
+    .lines { display: grid; gap: 10px; margin-top: 6px; }
+    .lines span { font-size: 14px; color: #444; }
+    .lines .ink {
+      border: none;
+      border-bottom: 1px solid #999;
+      background: transparent;
+      font: inherit;
+      font-size: 15px;
+      height: 28px;
+      padding: 4px 2px 2px;
+      width: 100%;
+    }
+    .lines .ink:focus { outline: none; border-bottom-color: #555; }
     .admit {
       margin: 18px 0 12px;
       padding-top: 12px;
@@ -178,7 +191,7 @@
     .admit-row .choice { display: inline-flex; align-items: center; gap: 6px; cursor: pointer; }
     .admit-row .choice input { width: 16px; height: 16px; }
     .sign { display: grid; gap: 8px; margin-top: 8px; }
-    .sign .field { grid-template-columns: 220px 1fr; }
+    .sign .field { grid-template-columns: 280px 1fr; }
     @media (max-width: 640px) {
       .field, .sign .field { grid-template-columns: 1fr; gap: 2px; }
       .sheet { padding: 12px; }
@@ -223,12 +236,12 @@
       <div class="meta">
         <label class="field"><span>Кассир</span><input type="text" data-k class="ink" autocomplete="off" /></label>
 <label class="field"><span>Магазин</span><input type="text" data-k class="ink" autocomplete="off" /></label>
-<label class="field"><span>Предыдущий кассир</span><input type="text" data-k class="ink" autocomplete="off" /></label>
+<label class="field"><span>Кассир, передающий дела</span><input type="text" data-k class="ink" autocomplete="off" /></label>
 <label class="field"><span>СПК</span><input type="text" data-k class="ink" autocomplete="off" /></label>
 <label class="field"><span>Дата начала</span><input type="text" data-k class="ink" autocomplete="off" /></label>
       </div>
       <p class="scheme"><b>16–20 ноября 2026.</b> Понедельник и вторник смотрите смену, оплату и возврат. Среда — инкассация. Четверг — юридические лица. Пятница — документы, стол заказов, монитор интернет-магазина и допуск.</p>
-      <p class="pair">Рядом: <a href="../kassir/">дни с предыдущим кассиром</a> и <a href="../sam/">лист нового кассира</a>.</p>
+      <p class="pair">Рядом: <a href="../kassir/">дни с кассиром, передающим дела</a> и <a href="../sam/">лист нового кассира</a>.</p>
       <section class="block"><h2>16 ноября 2026, понедельник. Смена и продажа</h2><p class="when">Смотрите со стороны. Кассу за кассира не ведёте. Если кассир этого не сделал, не отмечайте.</p><div class="list"><label class="item"><input type="checkbox" data-k /><span class="box" aria-hidden="true"></span><span class="txt">Список с 15 ноября на руках: что кассир сделал на кассе</span></label>
 <label class="item"><input type="checkbox" data-k /><span class="box" aria-hidden="true"></span><span class="txt"><span class="proc">Выход на смену</span><ul class="steps"><li>Доступы на месте: 1С:Касса, 1С:Торговля, почта магазина, Битрикс24</li><li>Кассир вышел за 15 минут, форма и бейдж в порядке, место у кассы чистое</li></ul></span></label>
 <label class="item"><input type="checkbox" data-k /><span class="box" aria-hidden="true"></span><span class="txt"><span class="proc">Открытие смены и чек</span><ul class="steps"><li>Кассир умеет открыть смену, закрепить подбор и включить сканер штрихкодов</li><li>Остаток своего магазина включён. Остаток других точек показывает и закрывает</li><li>Позицию в чек добавляет сканером штрихкодов. Ошибочную позицию убирает и добавляет нужную заново</li><li>Если продавцов несколько, сканирует штрихкод каждого</li></ul></span></label>
@@ -239,7 +252,7 @@
 <label class="item"><input type="checkbox" data-k /><span class="box" aria-hidden="true"></span><span class="txt"><span class="proc">Возврат в открытой смене</span><ul class="steps"><li>Решение о возврате приняли вы. Кассир оформил документы, чек и деньги тем же способом</li><li>«Не подошёл» принят в срок и в товарном виде. Повреждённый с этой формулировкой кассир сам не провёл</li><li>День в день на основной кассе проведён верно. На КСО возврат только в тот же день</li></ul></span></label>
 <label class="item"><input type="checkbox" data-k /><span class="box" aria-hidden="true"></span><span class="txt"><span class="proc">Возврат после закрытия смены</span><ul class="steps"><li>Кассир находит чек в «Чек ККМ продажи», создаёт возврат товаров от клиента и ставит склад магазина</li><li>В документе только возвращаемые строки. Деньги и фискальный чек покупатель получил</li><li>Другой магазин, другой город и интернет оформлены на этой точке. День в день с другого магазина возврат не проведён</li><li>Без чека есть заявление. Чужой чек на ту же сумму кассир не подбирал</li><li>Брак: сначала проверка на месте. Акт, если на месте вопрос не закрылся</li></ul></span></label>
 <label class="item"><input type="checkbox" data-k /><span class="box" aria-hidden="true"></span><span class="txt"><span class="proc">Касса самообслуживания и если 1С:Касса не работает</span><ul class="steps"><li>Кассир помогает покупателю и доводит чек до конца</li><li>Если 1С:Касса не работает, продажа ушла через сайт и монитор заказов, электронный чек отдан</li></ul></span></label>
-<label class="item"><input type="checkbox" data-k /><span class="box" aria-hidden="true"></span><span class="txt"><span class="proc">Если чек не вышел</span><ul class="steps"><li>Оплата прошла, чек не вышел: окно оставили, написали в чат «Заявки в ИТ-отдел», повторный чек после ответа ИТ</li><li>Программа не отвечала: кассир перезагрузил компьютер кассы целиком</li><li>Покупатель ждёт чек — чат «Заявки в ИТ-отдел». Дело может подождать — задача в Битрикс24 на руководителя отдела информационных технологий, вы в наблюдателях</li></ul></span></label></div></section><section class="block"><h2>18 ноября 2026, среда. Инкассация</h2><p class="when">Инкассацию кассир разбирал 15 ноября с предыдущим кассиром. В среду смотрите, как делает. Смотрите со стороны. Кассу за кассира не ведёте. Если кассир этого не сделал, не отмечайте.</p><div class="list"><label class="item"><input type="checkbox" data-k /><span class="box" aria-hidden="true"></span><span class="txt"><span class="proc">Лимит магазина</span><ul class="steps"><li>Кассир знает лимит своего магазина по таблице</li><li>Инкассацию оформляет, когда наличных больше лимита магазина</li><li>Деньги на зарплату ближайших 5–7 дней из сдачи убирает</li><li>В сейфе остаётся лимит магазина. Сверху только зарплата ближайших 5–7 дней, если её выдаём</li></ul></span></label>
+<label class="item"><input type="checkbox" data-k /><span class="box" aria-hidden="true"></span><span class="txt"><span class="proc">Если чек не вышел</span><ul class="steps"><li>Оплата прошла, чек не вышел: окно оставили, написали в чат «Заявки в ИТ-отдел», повторный чек после ответа ИТ</li><li>Программа не отвечала: кассир перезагрузил компьютер кассы целиком</li><li>Покупатель ждёт чек — чат «Заявки в ИТ-отдел». Дело может подождать — задача в Битрикс24 на руководителя отдела информационных технологий, вы в наблюдателях</li></ul></span></label></div></section><section class="block"><h2>18 ноября 2026, среда. Инкассация</h2><p class="when">Инкассацию кассир разбирал 15 ноября с кассиром, передающим дела. В среду смотрите, как делает. Смотрите со стороны. Кассу за кассира не ведёте. Если кассир этого не сделал, не отмечайте.</p><div class="list"><label class="item"><input type="checkbox" data-k /><span class="box" aria-hidden="true"></span><span class="txt"><span class="proc">Лимит магазина</span><ul class="steps"><li>Кассир знает лимит своего магазина по таблице</li><li>Инкассацию оформляет, когда наличных больше лимита магазина</li><li>Деньги на зарплату ближайших 5–7 дней из сдачи убирает</li><li>В сейфе остаётся лимит магазина. Сверху только зарплата ближайших 5–7 дней, если её выдаём</li></ul></span></label>
 <label class="item"><input type="checkbox" data-k /><span class="box" aria-hidden="true"></span><span class="txt"><span class="proc">Выемки</span><ul class="steps"><li>Кассир прочитал инструкцию «Выемки денежных средств»</li><li>Зарплату, аванс, больничный, отпускные и увольнение проводит суммой из плана. Пароль программа для этих видов не спрашивает</li><li>«Прочие расходы» — сдача наличных, как инкассация. Сумму кассир вводит сам, программа просит пароль</li><li>Если программа пишет, что сумма выше плана или план не заведён, вид операции кассир не меняет и пишет бухгалтеру по кассовым операциям: магазин, вид, сумма, скрин</li><li>Ведомость на зарплату выдаёт по вашему поручению. Сумма выемки совпадает с планом, люди расписываются, пакет помечен «В бухгалтерию» и уходит с машиной</li></ul></span></label>
 <label class="item"><input type="checkbox" data-k /><span class="box" aria-hidden="true"></span><span class="txt"><span class="proc">Инкассация и размен через Ларгус</span><ul class="steps"><li>В выемке «Прочие расходы» стоит галочка «Инкассация Ларгусом», акт напечатан и подтверждён</li><li>Размен: сейф-пакет кассир вскрывает только под камерами и вносит деньги в кассу</li></ul></span></label>
 <label class="item"><input type="checkbox" data-k /><span class="box" aria-hidden="true"></span><span class="txt"><span class="proc">Инкассация и размен через Сберинкассацию</span><ul class="steps"><li>Заявка создана, ИНО написан на сейф-пакете, электронная накладная в статусе «Сформирована»</li><li>Курьеру сверены паспорт и сумма, планшет подписан, затем сделана выемка</li><li>Размен создан отдельно, у услуги свой ИНО, полученные деньги внесены в кассу</li></ul></span></label></div></section><section class="block"><h2>19 ноября 2026, четверг. Юридические лица</h2><p class="when">Юридических лиц кассир разбирает с вами в этот четверг. Смотрите со стороны. Кассу за кассира не ведёте. Если кассир этого не сделал, не отмечайте.</p><div class="list"><label class="item"><input type="checkbox" data-k /><span class="box" aria-hidden="true"></span><span class="txt"><span class="proc">Продажа юридическому лицу</span><ul class="steps"><li>Компания, ИП и бюджетная организация идут через помощник продаж, не через чек частного покупателя</li><li>Клиента кассир ищет по ИНН. Если карточка уже есть, вторую не создаёт</li><li>Склад в заказе — этот магазин. Отгрузка идёт от ИП Пафнутьева Е.П.</li><li>По ЭДО УПД уходит электронно. На месте кассир печатает расходную накладную и берёт подпись того, кто забирает</li></ul></span></label>
