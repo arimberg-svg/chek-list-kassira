@@ -279,23 +279,35 @@ CSS = r"""
       .field, .sign .field { grid-template-columns: 1fr; gap: 2px; }
       .sheet { padding: 12px; }
     }
-    @page { size: A4; margin: 10mm 12mm; }
+    @page { size: A4; margin: 8mm 10mm; }
     @media print {
       .toolbar { display: none !important; }
-      body { background: #fff; font-size: 16px; line-height: 1.35; }
+      body { background: #fff; font-size: 15px; line-height: 1.28; }
       .sheet-wrap { width: 100%; margin: 0; }
       .sheet { border: none; box-shadow: none; padding: 0; }
-      .title-block .logo { width: 160px; }
-      h1 { font-size: 18px; }
-      h2 { font-size: 17px; }
-      .when, .scheme, .pair { font-size: 13px; }
-      .item { font-size: 15px; gap: 6px; line-height: 1.3; }
-      .steps { font-size: 14px; }
-      .steps li { margin: 2px 0; }
-      .item .box { width: 14px; height: 14px; border-width: 1px; }
+      .motto { margin: 0 0 2px; }
+      .title-block { margin: 0 0 6px; padding: 0 0 4px; }
+      .title-block .logo { width: 140px; }
+      h1 { font-size: 17px; margin: 2px 0 0; }
+      h2 { font-size: 16px; margin: 0 0 2px; }
+      .meta { gap: 2px; margin: 0 0 6px; }
+      .field { gap: 4px; }
+      .scheme { margin: 0 0 4px; line-height: 1.3; }
+      .pair { margin: 0 0 6px; }
+      .when, .scheme, .pair { font-size: 12px; }
+      .when { margin: 0 0 3px; }
+      .block { margin: 0 0 2px; }
+      .list { gap: 2px; }
+      .item { font-size: 14.5px; gap: 5px; line-height: 1.25; }
+      .steps { font-size: 13.5px; margin: 1px 0 0; }
+      .steps li { margin: 0; }
+      .item .box { width: 13px; height: 13px; border-width: 1px; margin-top: 1px; }
+      .lines { gap: 3px; margin-top: 2px; }
+      .lines .ink { height: 16px; }
+      .item, .lines { break-inside: avoid; page-break-inside: avoid; }
+      .sheet > .block:not(.day) { break-inside: avoid; page-break-inside: avoid; }
       .block.day { break-before: page; page-break-before: always; }
       .sheet > .block.day:first-of-type { break-before: auto; page-break-before: auto; }
-      .lines .ink { height: 22px; }
       a { color: inherit; text-decoration: none; }
     }
 """
@@ -671,7 +683,6 @@ kassir_sections = "".join([
                     "Понял, как оформлять: ФИО, телефон, срок или рассрочка, товар, сумма, магазин",
                     "Заявку сделал сам, кассир, передающий дела, посмотрел",
                     "Решение принял банк. После одобрения сделал заказ клиента и реализацию",
-                    "Один кредит выдан не позже 20 ноября. Если к этому дню банк ещё не одобрил, отметил в день выдачи",
                 ],
             ),
             (

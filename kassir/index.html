@@ -196,23 +196,35 @@
       .field, .sign .field { grid-template-columns: 1fr; gap: 2px; }
       .sheet { padding: 12px; }
     }
-    @page { size: A4; margin: 10mm 12mm; }
+    @page { size: A4; margin: 8mm 10mm; }
     @media print {
       .toolbar { display: none !important; }
-      body { background: #fff; font-size: 16px; line-height: 1.35; }
+      body { background: #fff; font-size: 15px; line-height: 1.28; }
       .sheet-wrap { width: 100%; margin: 0; }
       .sheet { border: none; box-shadow: none; padding: 0; }
-      .title-block .logo { width: 160px; }
-      h1 { font-size: 18px; }
-      h2 { font-size: 17px; }
-      .when, .scheme, .pair { font-size: 13px; }
-      .item { font-size: 15px; gap: 6px; line-height: 1.3; }
-      .steps { font-size: 14px; }
-      .steps li { margin: 2px 0; }
-      .item .box { width: 14px; height: 14px; border-width: 1px; }
+      .motto { margin: 0 0 2px; }
+      .title-block { margin: 0 0 6px; padding: 0 0 4px; }
+      .title-block .logo { width: 140px; }
+      h1 { font-size: 17px; margin: 2px 0 0; }
+      h2 { font-size: 16px; margin: 0 0 2px; }
+      .meta { gap: 2px; margin: 0 0 6px; }
+      .field { gap: 4px; }
+      .scheme { margin: 0 0 4px; line-height: 1.3; }
+      .pair { margin: 0 0 6px; }
+      .when, .scheme, .pair { font-size: 12px; }
+      .when { margin: 0 0 3px; }
+      .block { margin: 0 0 2px; }
+      .list { gap: 2px; }
+      .item { font-size: 14.5px; gap: 5px; line-height: 1.25; }
+      .steps { font-size: 13.5px; margin: 1px 0 0; }
+      .steps li { margin: 0; }
+      .item .box { width: 13px; height: 13px; border-width: 1px; margin-top: 1px; }
+      .lines { gap: 3px; margin-top: 2px; }
+      .lines .ink { height: 16px; }
+      .item, .lines { break-inside: avoid; page-break-inside: avoid; }
+      .sheet > .block:not(.day) { break-inside: avoid; page-break-inside: avoid; }
       .block.day { break-before: page; page-break-before: always; }
       .sheet > .block.day:first-of-type { break-before: auto; page-break-before: auto; }
-      .lines .ink { height: 22px; }
       a { color: inherit; text-decoration: none; }
     }
 </style>
@@ -263,7 +275,7 @@
 <label class="item"><input type="checkbox" data-k /><span class="box" aria-hidden="true"></span><span class="txt"><span class="proc">Поиск в помощнике продаж</span><ul class="steps"><li>Искал товар в кассе, в помощнике продаж, всю смену, не один раз</li><li>По названию увидел цену и остаток своего магазина</li><li>Остаток других точек открыл отдельно и закрыл этот список перед следующим чеком</li><li>Кассир, передающий дела, назвал позицию, я нашёл её сам</li></ul></span></label>
 <label class="item"><input type="checkbox" data-k /><span class="box" aria-hidden="true"></span><span class="txt"><span class="proc">Замер штангенциркулем</span><ul class="steps"><li>Диаметр измерил штангенциркулем, длину линейкой, в миллиметрах</li><li>По размеру нашёл метиз в помощнике продаж и добавил его в чек</li><li>Весовой товар пробил через весы</li></ul></span></label>
 <label class="item"><input type="checkbox" data-k /><span class="box" aria-hidden="true"></span><span class="txt"><span class="proc">Допродажи</span><ul class="steps"><li>Посмотрел, что человек уже берёт, и предложил то, что к этому нужно: к саморезу биту, к трубе отвод, пакет</li><li>За смену сделал это в нескольких чеках, не в одном</li></ul></span></label></div></section><section class="block day"><h2>15 ноября 2026, воскресенье. Касса, кредит, ценники и расходники</h2><p class="when">Последний день передачи. С кассиром, передающим дела. Если не сделали, не отмечайте.</p><div class="list"><label class="item"><input type="checkbox" data-k /><span class="box" aria-hidden="true"></span><span class="txt"><span class="proc">Поиск и допродажа весь день</span><ul class="steps"><li>Весь день искал товар в помощнике продаж сам. Кассир, передающий дела, проверил, а не искал вместо меня</li><li>В живой очереди предложил товар к покупке и пакет</li><li>Метизы измерил штангенциркулем и линейкой и сразу пробил найденную позицию</li></ul></span></label>
-<label class="item"><input type="checkbox" data-k /><span class="box" aria-hidden="true"></span><span class="txt"><span class="proc">Кредит и рассрочка на смене</span><ul class="steps"><li>Понял, как оформлять: ФИО, телефон, срок или рассрочка, товар, сумма, магазин</li><li>Заявку сделал сам, кассир, передающий дела, посмотрел</li><li>Решение принял банк. После одобрения сделал заказ клиента и реализацию</li><li>Один кредит выдан не позже 20 ноября. Если к этому дню банк ещё не одобрил, отметил в день выдачи</li></ul></span></label>
+<label class="item"><input type="checkbox" data-k /><span class="box" aria-hidden="true"></span><span class="txt"><span class="proc">Кредит и рассрочка на смене</span><ul class="steps"><li>Понял, как оформлять: ФИО, телефон, срок или рассрочка, товар, сумма, магазин</li><li>Заявку сделал сам, кассир, передающий дела, посмотрел</li><li>Решение принял банк. После одобрения сделал заказ клиента и реализацию</li></ul></span></label>
 <label class="item"><input type="checkbox" data-k /><span class="box" aria-hidden="true"></span><span class="txt"><span class="proc">Ценники ещё раз на смене</span><ul class="steps"><li>Сам открыл изменение цен, без подсказки нашёл, что печатать</li><li>Нарезал, заламинировал и поставил ценники на товар, который есть в остатке</li><li>Жёлтый ценник сверил с таблицей акций</li></ul></span></label>
 <label class="item"><input type="checkbox" data-k /><span class="box" aria-hidden="true"></span><span class="txt"><span class="proc">Чековая лента и пакеты</span><ul class="steps"><li>Посмотрел запас чековой ленты и пакетов в магазине</li><li>Рулон ленты или пачку пакетов, которые взял в работу, в тот же день списал внутренним потреблением со своего магазина. В действиях поставил «Отгрузить»</li><li>Понял: если не списать, закуп не видит, что лента и пакеты заканчиваются</li></ul></span></label>
 <label class="item"><input type="checkbox" data-k /><span class="box" aria-hidden="true"></span><span class="txt">Полный день на кассе прошёл рядом с кассиром, передающим дела</span></label></div></section>
