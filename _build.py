@@ -55,9 +55,10 @@ def study(title, steps):
         '<label class="choice"><input type="checkbox" data-k /> Изучил</label>'
         '<label class="choice"><input type="checkbox" data-k /> Понял</label>'
         "</div>"
-        '<label class="field"><span>Запись</span>'
+        '<div class="lines"><span>Запись</span>'
         '<input type="text" data-k class="ink" autocomplete="off" />'
-        "</label>"
+        '<input type="text" data-k class="ink" autocomplete="off" />'
+        "</div>"
         "</section>"
     )
 
@@ -230,6 +231,19 @@ CSS = r"""
     .marks { display: flex; flex-wrap: wrap; gap: 8px 18px; margin: 0 0 8px; }
     .marks .choice { display: inline-flex; align-items: center; gap: 6px; cursor: pointer; }
     .marks .choice input { width: 16px; height: 16px; }
+    .lines { display: grid; gap: 10px; margin-top: 6px; }
+    .lines span { font-size: 14px; color: #444; }
+    .lines .ink {
+      border: none;
+      border-bottom: 1px solid #999;
+      background: transparent;
+      font: inherit;
+      font-size: 15px;
+      height: 28px;
+      padding: 4px 2px 2px;
+      width: 100%;
+    }
+    .lines .ink:focus { outline: none; border-bottom-color: #555; }
     .admit {
       margin: 18px 0 12px;
       padding-top: 12px;
@@ -1075,7 +1089,7 @@ sam_html = page(
     pair='Рядом: <a href="../kassir/">дни с предыдущим кассиром</a> и <a href="../spk/">контроль СПК</a>.',
     sections=sam_sections,
     admit=sam_admit,
-    storage_key="um-kassir-vvod-sam-v1",
+    storage_key="um-kassir-vvod-sam-v2",
     toolbar="Академия УМ · лист нового кассира",
 )
 
