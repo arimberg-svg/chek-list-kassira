@@ -6,7 +6,7 @@
 
 **https://arimberg-svg.github.io/chek-list-kassira/**
 
-- [Чек-лист с кассиром, передающим дела](https://arimberg-svg.github.io/chek-list-kassira/kassir/)
+- [Чек-лист кассира, передающего дела](https://arimberg-svg.github.io/chek-list-kassira/kassir/)
 - [Контроль СПК за кассиром](https://arimberg-svg.github.io/chek-list-kassira/spk/)
 - [Лист нового кассира](https://arimberg-svg.github.io/chek-list-kassira/sam/)
 
