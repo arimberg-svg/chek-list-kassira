@@ -34,13 +34,25 @@ def items(texts):
     return "\n".join(out)
 
 
-def block(title, texts, note=""):
-    note_html = f'<p class="when">{esc(note)}</p>' if note else ""
+def note_lines():
     return (
-        '<section class="block">'
+        '<div class="lines"><span>Заметки</span>'
+        '<input type="text" data-k class="ink" autocomplete="off" />'
+        '<input type="text" data-k class="ink" autocomplete="off" />'
+        "</div>"
+    )
+
+
+def block(title, texts, note="", notes=False):
+    note_html = f'<p class="when">{esc(note)}</p>' if note else ""
+    cls = "block day" if "2026" in title else "block"
+    extra = note_lines() if notes else ""
+    return (
+        f'<section class="{cls}">'
         f"<h2>{esc(title)}</h2>"
         f"{note_html}"
         f'<div class="list">{items(texts)}</div>'
+        f"{extra}"
         "</section>"
     )
 
@@ -89,8 +101,8 @@ CSS = r"""
       margin: 0;
       color: var(--ink);
       font-family: var(--font);
-      font-size: 15px;
-      line-height: 1.45;
+      font-size: 18px;
+      line-height: 1.4;
       background: #f0f0f0;
       -webkit-print-color-adjust: exact;
       print-color-adjust: exact;
@@ -188,7 +200,7 @@ CSS = r"""
     .block { margin: 0 0 16px; }
     h2 {
       font-weight: 700;
-      font-size: 16px;
+      font-size: 20px;
       line-height: 1.3;
       color: #222;
       margin: 0 0 6px;
@@ -202,7 +214,7 @@ CSS = r"""
       gap: 8px;
       align-items: start;
       cursor: pointer;
-      font-size: 15px;
+      font-size: 18px;
       line-height: 1.4;
     }
     .item input {
@@ -225,8 +237,8 @@ CSS = r"""
       box-shadow: inset 0 0 0 2px #fff;
     }
     .proc { font-weight: 700; }
-    .steps { margin: 4px 0 0; padding-left: 18px; }
-    .steps li { margin: 2px 0; }
+    .steps { margin: 6px 0 0; padding-left: 20px; }
+    .steps li { margin: 4px 0; }
     .steps.plain { margin: 0 0 8px; }
     .marks { display: flex; flex-wrap: wrap; gap: 8px 18px; margin: 0 0 8px; }
     .marks .choice { display: inline-flex; align-items: center; gap: 6px; cursor: pointer; }
@@ -267,18 +279,23 @@ CSS = r"""
       .field, .sign .field { grid-template-columns: 1fr; gap: 2px; }
       .sheet { padding: 12px; }
     }
+    @page { size: A4; margin: 10mm 12mm; }
     @media print {
       .toolbar { display: none !important; }
-      body { background: #fff; font-size: 14px; }
+      body { background: #fff; font-size: 16px; line-height: 1.35; }
       .sheet-wrap { width: 100%; margin: 0; }
       .sheet { border: none; box-shadow: none; padding: 0; }
-      .title-block .logo { width: 180px; }
-      h1 { font-size: 16px; }
-      h2 { font-size: 14px; }
-      .item { font-size: 13px; gap: 6px; }
-      .steps { font-size: 12px; }
-      .item .box { width: 13px; height: 13px; border-width: 1px; }
-      .block { break-inside: avoid; }
+      .title-block .logo { width: 160px; }
+      h1 { font-size: 18px; }
+      h2 { font-size: 17px; }
+      .when, .scheme, .pair { font-size: 13px; }
+      .item { font-size: 15px; gap: 6px; line-height: 1.3; }
+      .steps { font-size: 14px; }
+      .steps li { margin: 2px 0; }
+      .item .box { width: 14px; height: 14px; border-width: 1px; }
+      .block.day { break-before: page; page-break-before: always; }
+      .sheet > .block.day:first-of-type { break-before: auto; page-break-before: auto; }
+      .lines .ink { height: 22px; }
       a { color: inherit; text-decoration: none; }
     }
 """
@@ -731,6 +748,7 @@ spk_sections = "".join([
             ),
         ],
         SPK_NOTE,
+        notes=True,
     ),
     block(
         "17 ноября 2026, вторник. Оплата, возврат, если чек не вышел",
@@ -786,6 +804,7 @@ spk_sections = "".join([
             ),
         ],
         SPK_NOTE,
+        notes=True,
     ),
     block(
         "18 ноября 2026, среда. Инкассация",
@@ -826,6 +845,7 @@ spk_sections = "".join([
             ),
         ],
         "Инкассацию кассир разбирает с вами в эту среду. На днях с кассиром, передающим дела, этого блока нет. " + SPK_NOTE,
+        notes=True,
     ),
     block(
         "19 ноября 2026, четверг. Юридические лица",
@@ -866,6 +886,7 @@ spk_sections = "".join([
             ),
         ],
         "Юридических лиц кассир разбирает с вами в этот четверг. " + SPK_NOTE,
+        notes=True,
     ),
     block(
         "20 ноября 2026, пятница. Документы, заказы и монитор",
@@ -924,6 +945,7 @@ spk_sections = "".join([
             "За 12–20 ноября выдан один кредит. Если кредита не было, не отмечайте",
         ],
         "Документы, стол заказов и монитор кассир разбирает с вами в эту пятницу. Здесь же решаете допуск.",
+        notes=True,
     ),
 ])
 
@@ -962,7 +984,7 @@ spk_html = page(
     pair='Рядом: <a href="../kassir/">дни с кассиром, передающим дела</a> и <a href="../sam/">лист нового кассира</a>.',
     sections=spk_sections,
     admit=spk_admit,
-    storage_key="um-kassir-vvod-spk-v7",
+    storage_key="um-kassir-vvod-spk-v8",
     toolbar="Академия УМ · контроль СПК за кассиром",
 )
 
