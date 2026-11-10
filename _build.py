@@ -412,17 +412,19 @@ def page(title, eyebrow, h1, scheme, pair, sections, admit, storage_key, toolbar
 """
 
 
-def admit(title, closed, signs):
+def admit(title, closed, signs, ready="Допуск к самостоятельной работе:", choices=("Да", "Пока рано")):
     closed_html = "\n".join(
         f'<label class="choice"><input type="checkbox" data-k /> {esc(x)}</label>' for x in closed
+    )
+    choice_html = "\n".join(
+        f'<label class="choice"><input type="checkbox" data-k /> {esc(x)}</label>' for x in choices
     )
     return f"""
       <section class="admit">
         <h2>{esc(title)}</h2>
         <div class="admit-row">
-          <span>Допуск к самостоятельной работе:</span>
-          <label class="choice"><input type="checkbox" data-k /> Да</label>
-          <label class="choice"><input type="checkbox" data-k /> Пока рано</label>
+          <span>{esc(ready)}</span>
+          {choice_html}
         </div>
         <div class="admit-row">
           <span>Закрыто:</span>
@@ -992,7 +994,7 @@ spk_html = page(
 sam_sections = "".join([
     study("Выход на смену", [
         "Надел чистую форму, бейдж с именем, должностью и QR",
-        "Вышел за 15 минут, место у кассы оставил чистым",
+        "Вышел за 15 минут и убрал за собой на кассе",
     ]),
     study("Открытие смены", [
         "Включил компьютер и вошёл в 1С:Касса под своим именем",
@@ -1033,7 +1035,7 @@ sam_sections = "".join([
     study("Кредит и рассрочка", [
         "Изучил инструкцию и понял, как оформлять заявку",
         "Собрал данные, сделал заявку, после одобрения банка сделал заказ и реализацию",
-        "Один кредит отметил только в день выдачи",
+        "Один кредит оформил от и до",
     ]),
     study("Возврат", [
         "Возврат в открытой смене сделал после решения СПК",
@@ -1073,7 +1075,6 @@ sam_sections = "".join([
     study("Монитор заказов интернет-магазина", [
         "Открыл монитор своего склада и отсканировал штрихкод TB-",
         "Нашёл заказ, проверил, что он проведён, и выдал его один раз",
-        "Понял цвета строк и не взял оплату с сайта второй раз",
     ]),
 ])
 
@@ -1081,6 +1082,8 @@ sam_admit = admit(
     "Итог",
     ["изучил", "понял"],
     ["Подпись кассира", "Подпись СПК", "Дата"],
+    ready="Чувствую, что полностью готов к смене:",
+    choices=("Нет", "Да"),
 )
 
 sam_html = page(
