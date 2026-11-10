@@ -416,8 +416,12 @@ def admit(title, closed, signs, ready="Допуск к самостоятель�
     closed_html = "\n".join(
         f'<label class="choice"><input type="checkbox" data-k /> {esc(x)}</label>' for x in closed
     )
-    choice_html = "\n".join(
-        f'<label class="choice"><input type="checkbox" data-k /> {esc(x)}</label>' for x in choices
+    choice_html = (
+        f'<label class="choice"><input type="checkbox" data-k /> {esc(choices[0])}</label>'
+        + "".join(
+            f'\n          <label class="choice"><input type="checkbox" data-k /> {esc(x)}</label>'
+            for x in choices[1:]
+        )
     )
     return f"""
       <section class="admit">
