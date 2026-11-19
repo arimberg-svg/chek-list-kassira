@@ -9,6 +9,7 @@
 - [Чек-лист кассира, передающего дела](https://arimberg-svg.github.io/chek-list-kassira/kassir/)
 - [Контроль СПК за кассиром](https://arimberg-svg.github.io/chek-list-kassira/spk/)
 - [Лист нового кассира](https://arimberg-svg.github.io/chek-list-kassira/sam/)
+- [Смена в «Чайке», 19 ноября](https://arimberg-svg.github.io/chek-list-kassira/chaika/) — с 10:00 до 19:00, лист для Узкоглазовой Марии
 
 Репозиторий: https://github.com/arimberg-svg/chek-list-kassira
 
